@@ -1,0 +1,49 @@
+{% extends 'main/base.html' %}
+
+
+{% block content %}
+<div class="container">
+    {% if title_h1 %}
+    <h1 class="text-center mb-5 mt-3">{{title_}}</h1>
+    {% else %}
+    <h1 class="text-center mb-5 mt-3">Today`s News</h1>
+    {% endif %}
+    <div class="row mb-4 pb-2 border-bottom text-center">
+        <div class="col-md col-sm-12">
+            {% if active == 0 %}
+            <span style="text-decoration: none; color: #6c757d;">
+                Все новости
+            </span>
+            {% else %}
+            <a href="{% url 'news' %}" style="text-decoration: none; color:#0dcaf0;">
+                Все новости
+            </a>
+            {% endif %}
+        </div>
+        {% for el in menu %}
+        <div class="col-md col-sm-12">
+            {% if el.pk != active %}
+            <a href="{{ el.get_absolute_url }}" style="text-decoration: none; color:#0dcaf0;">
+                {{ el.name }}
+            </a>
+            {% else %}
+            <span style="text-decoration: none; color: #6c757d;">
+                {{ el.name }}
+            </span>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        {% for new in news %}
+        <div class="col-lg-4 col-md-6 col-sm-12 p-3 pb-5 border-end border position-relative bg-dark">
+            <p>
+                <h4 style="color: #0dcaf0;">{{ new.title }}</h4>
+                <span style="color: white;">{{ new.content|truncatechars:50 }}</span>
+            </p>
+            <a href="{{ new.get_absolute_url }}" class="btn btn-info position-absolute" style="bottom: 10px; right: 10px;">Details</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
